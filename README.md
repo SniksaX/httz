@@ -1,5 +1,3 @@
----
-
 # `httz`
 
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg?logo=node.js)](https://nodejs.org/)
@@ -110,5 +108,3 @@ Contributions and feedback are welcome.
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
