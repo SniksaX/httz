@@ -1,28 +1,46 @@
 //router/request.ts
 
 import * as http from "http"
+import { formEncoderHelper } from "../utils/helpers";
 
 export class httzRequest {
     
     private _rawReq: http.IncomingMessage
     private _parsedBody: any;
+    private _queryParams: { [key: string]: string | string[]} = {};
+    private _routeParams: {[key: string] : string} = {};
 
     constructor(rawReq: http.IncomingMessage){
         this._rawReq = rawReq
     }
 
     public async init(): Promise<void> {
+        
         let rawBodyString: string;
+        const url = this._rawReq.url;
+
         try {
+
             rawBodyString = await this._readBody();
+
         } catch (error) {
             console.error('Error reading request body:', error);
             this._parsedBody = null;
             return;
         }
-        
+
+        if (url) {
+            const queryIndex = url.indexOf('?');
+            if (queryIndex !== -1) {
+                const queryString = url.substring(queryIndex + 1);
+                if (queryString.length > 0) {
+                    this._queryParams = Object.fromEntries(formEncoderHelper(queryString));
+                }
+            }
+        }
+
         const contentType = this._rawReq.headers['content-type'];
-        
+
         try {
             if (rawBodyString.length === 0) {
                 this._parsedBody = {};
@@ -32,16 +50,7 @@ export class httzRequest {
             if (contentType?.includes('application/json')) {
                 this._parsedBody = JSON.parse(rawBodyString);
             } else if (contentType?.includes('application/x-www-form-urlencoded')) {
-                const pairs = rawBodyString.split('&');
-                const result = new Map<string, string>();
-                pairs.forEach(pair => {
-                    const [encodedKey, encodedValue] = pair.split("=");
-                    const key = decodeURIComponent(encodedKey);
-                    const value = decodeURIComponent(encodedValue || '');
-
-                    result.set(key, value);
-                });
-                this._parsedBody = Object.fromEntries(result);
+                this._parsedBody = Object.fromEntries(formEncoderHelper(rawBodyString) );
             } else if (contentType?.includes('multipart/form-data')) {
                 console.warn('Soon');
             } else {
@@ -69,8 +78,12 @@ export class httzRequest {
 
             this._rawReq.on('error', (err: Error) => {
                     rejects(err)
-                })
+            })
         })
+    }
+
+    public _setParams(params: {[key: string]: string}): void {
+        this._routeParams = params
     }
 
     public get body(): any {
@@ -83,5 +96,13 @@ export class httzRequest {
 
     public get method(): string | undefined {
         return this._rawReq.method
+    }
+
+    public get query(): { [key: string]: string | string[]} {
+        return this._queryParams
+    }
+
+    public get params(): {[key : string]: string} {
+        return this._routeParams
     }
 }

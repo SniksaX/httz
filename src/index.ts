@@ -1,9 +1,9 @@
-// Conceptual sketch for application.ts
 import * as http from 'http';
 import { Router }  from './router';
 import { RequestHandler } from './router/types';
-import { httzRequest } from './router/request';
 import { httzResponse } from './router/response';
+import { httzRequest } from './router/request';
+
 
 export class  httz {
     private server: http.Server;
@@ -27,6 +27,14 @@ export class  httz {
 
     public post(path: string, handler: RequestHandler) {
         this.router.post(path, handler)
+    }
+
+    public patch(path: string, handler: RequestHandler) {
+        this.router.patch(path, handler)
+    }
+
+    public delete(path: string, handler: RequestHandler) {
+        this.router.delete(path, handler)
     }
 
     public listen(port: number, callback: () => void): void {
