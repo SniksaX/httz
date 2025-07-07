@@ -76,7 +76,7 @@ export class Router {
         }
 
         const pathOnly = incomingUrl.split('?')[0]; // '/users/123'
-        const incomingSegments = pathOnly.split('/').filter(s => s.length > 0); // e.g., ['users', '123']
+        const incomingSegments = pathOnly.split('/').filter(s => s.length > 0); //  ['users', '123']
 
         for (const route of this.routes) {
             let isMatch = true;
