@@ -1,0 +1,28 @@
+{
+  "name": "httz",
+  "version": "1.0.0",
+  "description": "A minimalist Node.js web framework",
+  "main": "dist/index.js",   
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "node dist/test-server.js",
+    "dev": "ts-node test-server.ts",
+    "build": "tsc"
+  },
+  "keywords": [
+    "node",
+    "framework",
+    "minimal",
+    "typescript"
+  ],
+  "author": "Siraj Rahal",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.x.x",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.x.x"
+  }
+}
