@@ -23,6 +23,7 @@ Leveraging Node.js's native `http` module, `httz` provides essential routing and
 ## Installation
 
 ```bash
+SOON!
 npm install httz
 # or
 yarn add httz
@@ -33,9 +34,9 @@ yarn add httz
 Create your application entry point (e.g., `app.ts` or `index.ts`):
 
 ```typescript
-import { Aperture } from 'httz';
+import { httz } from 'httz';
 
-const app = new Aperture();
+const app = new httz();
 const PORT = 3000;
 
 // Define a GET route
@@ -56,10 +57,6 @@ app.post('/api/data', (req, res) => {
 // Start the server
 app.listen(PORT, () => {
     console.log(`httz server running on http://localhost:${PORT}`);
-    console.log('Test with cURL:');
-    console.log(`- GET /: curl http://localhost:${PORT}/`);
-    console.log(`- POST /api/data (JSON): curl -X POST -H "Content-Type: application/json" -d '{"item":"widget","quantity":10}' http://localhost:${PORT}/api/data`);
-    console.log(`- POST /api/data (URL-encoded): curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -d 'product=book&price=25' http://localhost:${PORT}/api/data`);
 });
 ```
 
